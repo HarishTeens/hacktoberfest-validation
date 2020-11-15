@@ -29,5 +29,13 @@ find 4 PRs in October
       isPrivate: false,
       repositoryTopics: [Object]
     },
-    labels: { edges: [] }
+    "labels": {
+              "edges": [
+                {
+                  "node": {
+                    "name": "hacktoberfest-accepted"
+                  }
+                }
+              ]
+            }
   }

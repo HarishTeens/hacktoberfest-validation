@@ -6,7 +6,7 @@ express.use(bodyParser.urlencoded({ extended: false }));
 dotenv.config()
 
 const fetchNodeID=require('./helpers/fetchNodeID.js');
-const {fetchPRHistory} =require('./helpers/hacktoberfest');
+const {fetchPRHistory,transformPRs} =require('./helpers/hacktoberfest');
 
 express.get("/",(req,res)=>{
     res.send("Magic lies underneath!")
@@ -17,8 +17,8 @@ express.post("/hacktoberfest",async (req,res)=>{
     const userToken=req.body.token;
     // const userNodeID=await fetchNodeID(userToken);
     const PRHistory= await fetchPRHistory(userNodeID,userToken);
-    console.log(PRHistory);
-    res.sendStatus(200);
+    const transformedPRs=await transformPRs(PRHistory);
+    res.json(transformedPRs);
 })
 
 express.listen(4000,()=>{
