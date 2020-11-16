@@ -1,6 +1,7 @@
+## Hacktoberfest 2020 Validation Checker 
 ### Introduction
 
-An API inteded to simulate DigitalOcean's Hacktoberfest Validation Check.
+An API to simulate DigitalOcean's Hacktoberfest Validation Check.
 
 ### Step to Use the API
 
@@ -18,3 +19,8 @@ If completed,
 else `{ 
     success:false
 }`   
+
+
+References: [Official Digital Ocean's Repository](https://github.com/digitalocean/hacktoberfest)
+
+Special Thanks to [@fridaland](https://github.com/fridaland) and [@MattIPv4](https://github.com/MattIPv4)
