@@ -54,11 +54,11 @@ const fetchPRHistory=async (nodeID,userToken)=>{
     
 }
 
-const has14DaysPassed=(node)=>{
+const hasXDaysPassed=(node,x)=>{
   const timeStamp=new Date(node.createdAt);
   const diffTime=Math.abs(Date.now()-timeStamp);
   const diffDays=Math.ceil(diffTime/ (1000 * 60 * 60 * 24));
-  return diffDays>=14;
+  return diffDays>=x;
 }
 
 
@@ -89,13 +89,28 @@ const transformPRs=(nodes)=>{
         ) && (
           (each.merged===true)
           ||
-          ( each.reviewDecision == "APPROVED" && has14DaysPassed(each) )
+          ( each.reviewDecision == "APPROVED" && hasXDaysPassed(each,14) )
         );
     })
 
+    // PRs sent before the updated guidelines
+    const filter4=filter1.filter((each)=>{
+      const timeStamp=new Date(each.createdAt);
+      return (
+        parseInt(timeStamp.getDate())<5 
+        && 
+        each.labels.edges.filter(
+          (edge)=>edge.node.name=="spam" || edge.node.name=="invalid")
+          .length==0
+        && hasXDaysPassed(each,7)        
+        );
+    })
 
-    
-    return [...filter2, ...filter3];
+    let PRset=new Set();
+    [...filter2, ...filter3, ...filter4].forEach(each=>{
+      PRset.add(each.id);
+    })
+    return PRset;
 
 }
 
